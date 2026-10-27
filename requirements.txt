@@ -1,0 +1,2 @@
+# The current offline planning milestone uses only the Python 3.12 standard library.
+# Add exact package versions here only after a framework or API integration is approved.
