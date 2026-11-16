@@ -1,0 +1,611 @@
+{
+  "schema_version": 1,
+  "ids": {
+    "main": {
+      "tag": "main",
+      "attrs": {
+        "id": "main"
+      },
+      "form": null
+    },
+    "title": {
+      "tag": "h1",
+      "attrs": {
+        "id": "title"
+      },
+      "form": null
+    },
+    "notice": {
+      "tag": "p",
+      "attrs": {
+        "id": "notice",
+        "role": "status",
+        "aria-live": "polite"
+      },
+      "form": null
+    },
+    "new-job": {
+      "tag": "section",
+      "attrs": {
+        "id": "new-job",
+        "aria-labelledby": "new-title"
+      },
+      "form": null
+    },
+    "new-title": {
+      "tag": "h2",
+      "attrs": {
+        "id": "new-title"
+      },
+      "form": null
+    },
+    "brief-form": {
+      "tag": "form",
+      "attrs": {
+        "id": "brief-form"
+      },
+      "form": "brief-form"
+    },
+    "topic": {
+      "tag": "input",
+      "attrs": {
+        "id": "topic",
+        "name": "topic",
+        "required": null,
+        "maxlength": "240",
+        "value": "재활용 분리배출의 기본"
+      },
+      "form": "brief-form"
+    },
+    "seconds": {
+      "tag": "input",
+      "attrs": {
+        "id": "seconds",
+        "type": "number",
+        "min": "5",
+        "max": "180",
+        "step": "0.1",
+        "value": "30",
+        "required": null
+      },
+      "form": "brief-form"
+    },
+    "ratio": {
+      "tag": "select",
+      "attrs": {
+        "id": "ratio"
+      },
+      "form": "brief-form"
+    },
+    "style": {
+      "tag": "input",
+      "attrs": {
+        "id": "style",
+        "required": null,
+        "value": "명확한 설명형",
+        "maxlength": "240"
+      },
+      "form": "brief-form"
+    },
+    "audience": {
+      "tag": "input",
+      "attrs": {
+        "id": "audience",
+        "required": null,
+        "value": "분리배출을 처음 배우는 성인",
+        "maxlength": "240"
+      },
+      "form": "brief-form"
+    },
+    "forbidden": {
+      "tag": "input",
+      "attrs": {
+        "id": "forbidden",
+        "value": "과장 광고",
+        "maxlength": "500"
+      },
+      "form": "brief-form"
+    },
+    "budget": {
+      "tag": "input",
+      "attrs": {
+        "id": "budget",
+        "type": "number",
+        "min": "0",
+        "max": "1000000000",
+        "value": "1000",
+        "required": null
+      },
+      "form": "brief-form"
+    },
+    "model-mode": {
+      "tag": "select",
+      "attrs": {
+        "id": "model-mode",
+        "aria-describedby": "model-hint"
+      },
+      "form": "brief-form"
+    },
+    "model-hint": {
+      "tag": "p",
+      "attrs": {
+        "id": "model-hint"
+      },
+      "form": "brief-form"
+    },
+    "jobs": {
+      "tag": "select",
+      "attrs": {
+        "id": "jobs"
+      },
+      "form": null
+    },
+    "reload": {
+      "tag": "button",
+      "attrs": {
+        "id": "reload",
+        "type": "button"
+      },
+      "form": null
+    },
+    "workspace": {
+      "tag": "section",
+      "attrs": {
+        "id": "workspace",
+        "aria-labelledby": "work-title"
+      },
+      "form": null
+    },
+    "work-title": {
+      "tag": "h2",
+      "attrs": {
+        "id": "work-title"
+      },
+      "form": null
+    },
+    "stage": {
+      "tag": "span",
+      "attrs": {
+        "id": "stage"
+      },
+      "form": null
+    },
+    "step-plan": {
+      "tag": "li",
+      "attrs": {
+        "id": "step-plan"
+      },
+      "form": null
+    },
+    "step-quote": {
+      "tag": "li",
+      "attrs": {
+        "id": "step-quote"
+      },
+      "form": null
+    },
+    "step-render": {
+      "tag": "li",
+      "attrs": {
+        "id": "step-render"
+      },
+      "form": null
+    },
+    "step-review": {
+      "tag": "li",
+      "attrs": {
+        "id": "step-review"
+      },
+      "form": null
+    },
+    "empty": {
+      "tag": "div",
+      "attrs": {
+        "id": "empty"
+      },
+      "form": null
+    },
+    "job-content": {
+      "tag": "div",
+      "attrs": {
+        "id": "job-content",
+        "hidden": null
+      },
+      "form": null
+    },
+    "job-meta": {
+      "tag": "p",
+      "attrs": {
+        "id": "job-meta"
+      },
+      "form": null
+    },
+    "status-help": {
+      "tag": "p",
+      "attrs": {
+        "id": "status-help"
+      },
+      "form": null
+    },
+    "plan-title": {
+      "tag": "h3",
+      "attrs": {
+        "id": "plan-title"
+      },
+      "form": null
+    },
+    "hook": {
+      "tag": "p",
+      "attrs": {
+        "id": "hook"
+      },
+      "form": null
+    },
+    "story": {
+      "tag": "p",
+      "attrs": {
+        "id": "story"
+      },
+      "form": null
+    },
+    "scenes": {
+      "tag": "div",
+      "attrs": {
+        "id": "scenes"
+      },
+      "form": null
+    },
+    "approve-plan": {
+      "tag": "button",
+      "attrs": {
+        "id": "approve-plan",
+        "type": "button"
+      },
+      "form": null
+    },
+    "prepare": {
+      "tag": "button",
+      "attrs": {
+        "id": "prepare",
+        "type": "button"
+      },
+      "form": null
+    },
+    "quote-section": {
+      "tag": "section",
+      "attrs": {
+        "id": "quote-section",
+        "hidden": null
+      },
+      "form": null
+    },
+    "quote-total": {
+      "tag": "p",
+      "attrs": {
+        "id": "quote-total"
+      },
+      "form": null
+    },
+    "prompts": {
+      "tag": "pre",
+      "attrs": {
+        "id": "prompts"
+      },
+      "form": null
+    },
+    "approval-note": {
+      "tag": "p",
+      "attrs": {
+        "id": "approval-note"
+      },
+      "form": null
+    },
+    "production-form": {
+      "tag": "form",
+      "attrs": {
+        "id": "production-form"
+      },
+      "form": "production-form"
+    },
+    "approver": {
+      "tag": "input",
+      "attrs": {
+        "id": "approver",
+        "required": null,
+        "value": "로컬 시연 사용자",
+        "maxlength": "120"
+      },
+      "form": "production-form"
+    },
+    "approval-reason": {
+      "tag": "input",
+      "attrs": {
+        "id": "approval-reason",
+        "required": null,
+        "value": "기획·프롬프트·가상 견적을 확인했습니다.",
+        "maxlength": "500"
+      },
+      "form": "production-form"
+    },
+    "approve-production": {
+      "tag": "button",
+      "attrs": {
+        "id": "approve-production",
+        "type": "submit"
+      },
+      "form": "production-form"
+    },
+    "produce": {
+      "tag": "button",
+      "attrs": {
+        "id": "produce",
+        "type": "button"
+      },
+      "form": null
+    },
+    "result-section": {
+      "tag": "section",
+      "attrs": {
+        "id": "result-section",
+        "hidden": null
+      },
+      "form": null
+    },
+    "quality-summary": {
+      "tag": "p",
+      "attrs": {
+        "id": "quality-summary"
+      },
+      "form": null
+    },
+    "video": {
+      "tag": "video",
+      "attrs": {
+        "id": "video",
+        "controls": null,
+        "preload": "metadata",
+        "aria-label": "합성 모의 영상"
+      },
+      "form": null
+    },
+    "downloads": {
+      "tag": "div",
+      "attrs": {
+        "id": "downloads"
+      },
+      "form": null
+    },
+    "review-form": {
+      "tag": "form",
+      "attrs": {
+        "id": "review-form"
+      },
+      "form": "review-form"
+    },
+    "reviewer": {
+      "tag": "input",
+      "attrs": {
+        "id": "reviewer",
+        "value": "로컬 시연 사용자",
+        "required": null,
+        "maxlength": "120"
+      },
+      "form": "review-form"
+    },
+    "decision": {
+      "tag": "select",
+      "attrs": {
+        "id": "decision",
+        "required": null
+      },
+      "form": "review-form"
+    },
+    "review-note": {
+      "tag": "textarea",
+      "attrs": {
+        "id": "review-note",
+        "required": null,
+        "rows": "2",
+        "maxlength": "1000"
+      },
+      "form": "review-form"
+    },
+    "issue-fields": {
+      "tag": "div",
+      "attrs": {
+        "id": "issue-fields"
+      },
+      "form": "review-form"
+    },
+    "category": {
+      "tag": "select",
+      "attrs": {
+        "id": "category"
+      },
+      "form": "review-form"
+    },
+    "scene-number": {
+      "tag": "input",
+      "attrs": {
+        "id": "scene-number",
+        "type": "number",
+        "min": "1",
+        "step": "1"
+      },
+      "form": "review-form"
+    },
+    "review": {
+      "tag": "button",
+      "attrs": {
+        "id": "review",
+        "type": "submit"
+      },
+      "form": "review-form"
+    },
+    "review-summary": {
+      "tag": "p",
+      "attrs": {
+        "id": "review-summary"
+      },
+      "form": null
+    },
+    "revision-section": {
+      "tag": "section",
+      "attrs": {
+        "id": "revision-section",
+        "hidden": null
+      },
+      "form": null
+    },
+    "revision-form": {
+      "tag": "form",
+      "attrs": {
+        "id": "revision-form"
+      },
+      "form": "revision-form"
+    },
+    "feedback": {
+      "tag": "textarea",
+      "attrs": {
+        "id": "feedback",
+        "required": null,
+        "rows": "2",
+        "maxlength": "1000"
+      },
+      "form": "revision-form"
+    },
+    "new-hook": {
+      "tag": "textarea",
+      "attrs": {
+        "id": "new-hook",
+        "required": null,
+        "rows": "2"
+      },
+      "form": "revision-form"
+    },
+    "new-story": {
+      "tag": "textarea",
+      "attrs": {
+        "id": "new-story",
+        "required": null,
+        "rows": "2"
+      },
+      "form": "revision-form"
+    },
+    "scene-editors": {
+      "tag": "div",
+      "attrs": {
+        "id": "scene-editors"
+      },
+      "form": "revision-form"
+    },
+    "revise": {
+      "tag": "button",
+      "attrs": {
+        "id": "revise",
+        "type": "submit"
+      },
+      "form": "revision-form"
+    },
+    "about": {
+      "tag": "section",
+      "attrs": {
+        "id": "about"
+      },
+      "form": null
+    }
+  },
+  "labels": [
+    "topic",
+    "seconds",
+    "ratio",
+    "style",
+    "audience",
+    "forbidden",
+    "budget",
+    "model-mode",
+    "jobs",
+    "approver",
+    "approval-reason",
+    "reviewer",
+    "decision",
+    "review-note",
+    "category",
+    "scene-number",
+    "feedback",
+    "new-hook",
+    "new-story"
+  ],
+  "options": {
+    "ratio": [
+      {
+        "value": null,
+        "text": "9:16"
+      },
+      {
+        "value": null,
+        "text": "16:9"
+      },
+      {
+        "value": null,
+        "text": "1:1"
+      }
+    ],
+    "model-mode": [
+      {
+        "value": "local_template",
+        "text": "로컬 규칙 템플릿"
+      },
+      {
+        "value": "local_model_mock",
+        "text": "로컬 모델 연결 모의 응답"
+      },
+      {
+        "value": "local_ollama",
+        "text": "로컬 AI 실제 생성 · Qwen 3.5 4B"
+      },
+      {
+        "value": "openai_mock",
+        "text": "API 연결 모의 테스트 · OpenAI SDK"
+      }
+    ],
+    "jobs": [
+      {
+        "value": "",
+        "text": "작업을 선택하세요"
+      }
+    ],
+    "decision": [
+      {
+        "value": "",
+        "text": "결과를 선택하세요"
+      },
+      {
+        "value": "request_changes",
+        "text": "수정 요청"
+      },
+      {
+        "value": "accept",
+        "text": "모의 결과 확인 완료"
+      }
+    ],
+    "category": [
+      {
+        "value": "content",
+        "text": "기획·대본"
+      },
+      {
+        "value": "visual",
+        "text": "연출·프롬프트"
+      },
+      {
+        "value": "timing",
+        "text": "영상 길이·편집"
+      },
+      {
+        "value": "subtitle",
+        "text": "자막"
+      }
+    ]
+  }
+}

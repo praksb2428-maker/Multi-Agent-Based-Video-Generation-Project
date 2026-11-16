@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "reviewer": "synthetic example reviewer - not final user acceptance",
+  "decision": "request_changes",
+  "notes": "Example only: return the opening content for an explicit revision.",
+  "issues": [
+    {"category": "content", "scene_number": 1, "note": "Write a clearer opening in the plan and approve the new revision."}
+  ]
+}

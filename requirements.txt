@@ -1,2 +1,3 @@
-# The current offline planning milestone uses only the Python 3.12 standard library.
-# Add exact package versions here only after a framework or API integration is approved.
+# SDK mock milestone: all planning requests stay in an in-memory MockTransport.
+openai==3.41.0
+httpx==0.28.1

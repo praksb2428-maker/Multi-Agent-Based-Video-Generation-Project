@@ -6,6 +6,7 @@ deliberately a template so that input, JSON handoff, and approval can be tested.
 
 from __future__ import annotations
 
+from copy import deepcopy
 from datetime import datetime, timezone
 from hashlib import sha256
 import json
@@ -17,6 +18,26 @@ SCHEMA_VERSION = 1
 REQUIRED_BRIEF = ("topic", "target_seconds", "aspect_ratio", "style", "audience",
                   "forbidden", "max_budget")
 REQUIRED_SCENE = ("number", "duration_seconds", "script", "background", "action", "camera")
+CREATIVE_FIELDS = frozenset(("hook", "story", "scenes"))
+
+
+def _validate_revision(revision):
+    fields = {"schema_version", "number", "parent_content_sha256", "feedback", "changed_fields"}
+    if not isinstance(revision, dict) or set(revision) != fields:
+        raise ValueError("invalid revision fields")
+    if type(revision["schema_version"]) is not int or revision["schema_version"] != 1:
+        raise ValueError("unsupported revision schema")
+    if type(revision["number"]) is not int or revision["number"] < 1:
+        raise ValueError("revision number must be a positive integer")
+    digest = revision["parent_content_sha256"]
+    if not isinstance(digest, str) or not re.fullmatch(r"[0-9a-f]{64}", digest):
+        raise ValueError("invalid revision parent digest")
+    _nonempty_string(revision["feedback"], "revision feedback")
+    changed = revision["changed_fields"]
+    if (not isinstance(changed, list) or not changed or
+            any(not isinstance(field, str) or field not in CREATIVE_FIELDS for field in changed) or
+            changed != sorted(set(changed))):
+        raise ValueError("invalid revision changed_fields")
 
 
 def _nonempty_string(value, name):
@@ -57,7 +78,7 @@ def validate_brief(brief):
     return normalized
 
 
-def create_draft(brief):
+def create_draft(brief, *, research=None):
     """Create a transparent template draft for the first content-planning milestone."""
     brief = validate_brief(brief)
     topic = brief["topic"]
@@ -79,6 +100,13 @@ def create_draft(brief):
             "brief": brief, "hook": scenes[0]["script"],
             "story": "질문 → 핵심 설명 → 요약", "scenes": scenes,
             "cost_estimate": None, "approval": None}
+    if research is not None:
+        from src.research_mock import validate_research
+        validate_research(research, brief)
+        plan["research"] = deepcopy(research)
+        reference = research["sources"][0]
+        plan["story"] += f" · 모의 참고 [{reference['source_id']}]: {reference['summary']}"
+        plan["scenes"][1]["script"] = f"[모의 참고 {reference['source_id']}] {reference['summary']}"
     validate_plan(plan)
     return plan
 
@@ -91,6 +119,12 @@ def validate_plan(plan):
     brief = validate_brief(plan.get("brief"))
     if plan.get("status") not in ("draft", "approved"):
         raise ValueError("invalid plan status")
+    _nonempty_string(plan.get("source"), "source")
+    if "revision" in plan:
+        _validate_revision(plan["revision"])
+    if "research" in plan:
+        from src.research_mock import validate_research
+        validate_research(plan["research"], brief)
     for name in ("hook", "story"):
         _nonempty_string(plan.get(name), name)
     scenes = plan.get("scenes")
@@ -121,6 +155,11 @@ def validate_plan(plan):
 
 def _content_digest(plan):
     content = {name: plan[name] for name in ("schema_version", "source", "brief", "hook", "story", "scenes")}
+    # Optional metadata is bound only when present; legacy schema-1 hashes stay unchanged.
+    if "revision" in plan:
+        content["revision"] = plan["revision"]
+    if "research" in plan:
+        content["research"] = plan["research"]
     encoded = json.dumps(content, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")
     return sha256(encoded).hexdigest()
 
@@ -145,3 +184,42 @@ def is_approved(plan):
                 approval.get("content_sha256") == _content_digest(plan))
     except (KeyError, TypeError, ValueError):
         return False
+
+
+def revise_plan(plan, request):
+    """Apply explicit local creative replacements, never interpreting feedback with AI.
+
+    Drafts and valid approved plans can be revised. The original is unchanged;
+    every result is a fresh draft requiring an explicit new approval.
+    """
+    validate_plan(plan)
+    if plan["status"] == "approved" and not is_approved(plan):
+        raise ValueError("cannot revise an invalid approved plan")
+    if plan["status"] == "draft" and plan.get("approval") is not None:
+        raise ValueError("draft plan must not carry an approval")
+    if not isinstance(request, dict) or set(request) != {"schema_version", "feedback", "changes"}:
+        raise ValueError("revision request must contain schema_version, feedback, changes only")
+    if type(request["schema_version"]) is not int or request["schema_version"] != 1:
+        raise ValueError("unsupported revision request schema")
+    feedback = _nonempty_string(request["feedback"], "feedback")
+    changes = request["changes"]
+    if not isinstance(changes, dict) or not changes or not set(changes) <= CREATIVE_FIELDS:
+        raise ValueError("changes must contain only hook, story, scenes")
+    if "scenes" in changes:
+        scenes = changes["scenes"]
+        if (not isinstance(scenes, list) or any(not isinstance(scene, dict) or
+                set(scene) != set(REQUIRED_SCENE) for scene in scenes)):
+            raise ValueError("replacement scene fields do not match the contract")
+    changed_fields = sorted(field for field, value in changes.items() if value != plan[field])
+    if not changed_fields:
+        raise ValueError("revision must change creative content")
+    revised = deepcopy(plan)
+    for field in changed_fields:
+        revised[field] = deepcopy(changes[field])
+    revised["status"], revised["approval"] = "draft", None
+    revised["revision"] = {"schema_version": 1,
+                           "number": plan.get("revision", {}).get("number", 0) + 1,
+                           "parent_content_sha256": _content_digest(plan),
+                           "feedback": feedback, "changed_fields": changed_fields}
+    validate_plan(revised)
+    return revised

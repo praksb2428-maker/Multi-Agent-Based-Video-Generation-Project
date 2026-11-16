@@ -27,3 +27,15 @@
 | [0003](0003-framework-deferred.md) | 프레임워크 선택 보류 |
 | [0004](0004-synthetic-data.md) | 초기 검증 데이터 |
 | [0005](0005-offline-services.md) | 외부 API·유료 검증 시점 |
+| [0006](0006-sdk-mock.md) | OpenAI SDK 추가와 모의 응답 검증, 실제 호출 금지 유지 |
+| [0007](0007-plan-revision.md) | 명시적 기획 수정과 원본 보존·재승인 |
+| [0008](0008-local-direction-prompts.md) | 승인 기획 기반 로컬 연출·범용 프롬프트, 제작 실행 없음 |
+| [0009](0009-mock-quote-approval.md) | 가상 단위 견적·별도 모의 제작 승인, 실제 실행 허가 아님 |
+| [0010](0010-local-mock-media.md) | 모의 승인 기반 로컬 색상·무음 MP4/SRT와 기술 검사, 외부 제작 없음 |
+| [0011](0011-local-result-feedback.md) | 별도 검사보고·명시적 확인 기록·단계별 수정 안내와 현재 결과 재검증 |
+| [0012](0012-mock-rework.md) | 수정 요청·명시 patch·별도 기획/모의 제작 재승인·새 합성 결과와 사람 확인 대기 |
+| [0013](0013-local-gui-harness.md) | TXT 제작 요구의 프로젝트 스킬·Python 로컬 GUI·8개 설계 책임과 모델 연결 모의 준비 |
+| [0014](0014-local-ollama-planning.md) | 승인된 portable·모델 설치와 명시 CLI 실제 기획·대본, 별도 승인·내용 검토 유지 |
+| [0015](0015-gui-local-planning.md) | 기존 GUI 기획 방식의 명시 로컬 AI 생성 연결, 두 승인·기존 작업 보존 |
+| [0016](0016-gui-api-mock.md) | Python SDK의 API 키 방식 모의 경로를 GUI에 연결, 실제 키·외부 호출 차단 |
+| [0017](0017-optional-mock-research.md) | 기획 전 선택형 합성 자료 검색·출처 정리·문맥 전달, 자료의 승인 해시 결속과 기존 두 승인 유지 |
