@@ -4,7 +4,7 @@
 
 - 프로젝트 제목 : 숏츠 제작을 위한 멀티 에이전트팀 개발
 - 작성일자 : 2026-11-16
-- 학번 / 이름 : 미기재
+- 학번 / 이름 : 20221703 / 박준호
 
 사용자가 주제와 조건을 입력하면 기획, 연출, 프롬프트 작성, 제작, 검토를 거쳐 숏츠 한 편을 만드는 에이전트팀을 개발하고 있다. 최종 결과물은 MP4 영상, SRT 자막, 장면별 JSON과 품질 검사 결과다. [저장소의 프로젝트 기획안](https://github.com/praksb2428-maker/Multi-Agent-Based-Video-Generation-Project/blob/9d8a72e1c928ba70112894768adef182cafa1bf8/Video_Production_Project.md)을 기준으로 진행 상황을 정리했다.
 
