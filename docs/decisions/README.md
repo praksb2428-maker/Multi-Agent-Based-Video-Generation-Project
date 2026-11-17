@@ -39,3 +39,4 @@
 | [0015](0015-gui-local-planning.md) | 기존 GUI 기획 방식의 명시 로컬 AI 생성 연결, 두 승인·기존 작업 보존 |
 | [0016](0016-gui-api-mock.md) | Python SDK의 API 키 방식 모의 경로를 GUI에 연결, 실제 키·외부 호출 차단 |
 | [0017](0017-optional-mock-research.md) | 기획 전 선택형 합성 자료 검색·출처 정리·문맥 전달, 자료의 승인 해시 결속과 기존 두 승인 유지 |
+| [0018](0018-openai-api-planning.md) | 명시 GPT-6.1 Sol API 기획·대본, 서버 전용 키 설정·전송/과금 안내와 기존 두 승인 유지; 실제 유료 검증은 미실행 |

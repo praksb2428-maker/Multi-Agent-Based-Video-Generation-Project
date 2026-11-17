@@ -75,11 +75,15 @@ class UiPreservationTests(unittest.TestCase):
         for identity in ("job-content", "quote-section", "result-section", "revision-section"):
             self.assertIn("hidden", self.ui.ids[identity]["attrs"])
 
-    def test_all_labels_four_planning_modes_and_review_options_survive(self):
+    def test_all_labels_existing_modes_and_explicit_api_mode_survive(self):
         self.assertEqual([item for item in self.ui.labels if item != "research-enabled"], self.golden["labels"])
         self.assertEqual(self.ui.labels.count("research-enabled"), 1)
-        self.assertEqual(self.ui.options, self.golden["options"])
-        self.assertEqual(len(self.ui.options["model-mode"]), 4)
+        existing = {key: value for key, value in self.ui.options.items() if key != "model-mode"}
+        self.assertEqual(existing, {key: value for key, value in self.golden["options"].items() if key != "model-mode"})
+        self.assertEqual(self.ui.options["model-mode"][:4], self.golden["options"]["model-mode"])
+        self.assertEqual(self.ui.options["model-mode"][4:], [
+            {"value": "openai_api", "text": "실제 AI 기획·대본 · GPT-6.1 Sol API"}])
+        self.assertNotIn("selected", self.ui.ids["model-mode"]["attrs"])
         for identity in self.ui.labels:
             self.assertIn(identity, self.ui.ids)
         self.assertEqual(self.ui.ids["research-enabled"]["attrs"]["type"], "checkbox")

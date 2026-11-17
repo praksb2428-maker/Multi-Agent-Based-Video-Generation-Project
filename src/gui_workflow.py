@@ -17,6 +17,7 @@ from src.direction import _canonical, create_direction, create_prompts
 from src.local_model_mock import draft_local_mock
 from src.local_ollama import create_local_draft, MODEL, MODEL_DIGEST
 from src.openai_mock import create_mock_draft
+from src.openai_api import create_api_draft, SOURCE as API_SOURCE
 from src.research_mock import search_mock, validate_research
 from src.mock_media import WORKSPACE, _result_dir, _file, _json_read, _json_write, produce_mock_media
 from src.mock_production import (_digest, approve_mock_production, create_mock_quote,
@@ -212,7 +213,7 @@ class Workflow:
         return {"schema_version": 1, "id": identity, "packet": packet}
 
     def create(self, brief, mode, research_id=_NO_RESEARCH):
-        if mode not in ("local_template", "local_model_mock", "local_ollama", "openai_mock"):
+        if mode not in ("local_template", "local_model_mock", "local_ollama", "openai_mock", "openai_api"):
             raise ValueError("화면에 있는 기획 방식만 선택할 수 있습니다.")
         fields(brief, {"topic", "target_seconds", "aspect_ratio", "style", "audience", "forbidden", "max_budget"})
         research = None
@@ -243,6 +244,14 @@ class Workflow:
                 else:
                     detail = "로컬 AI 응답이 기획 조건을 통과하지 못했습니다. 입력 조건을 확인한 뒤 다시 시도하세요."
                 raise ValueError(detail + " 기존 작업은 유지되며 자동으로 다시 생성하지 않습니다.") from error
+        elif mode == "openai_api":
+            expected = deepcopy(validate_brief(brief))
+            draft = create_api_draft(deepcopy(expected), **options)
+            validate_plan(draft)
+            if (draft["status"] != "draft" or draft.get("approval") is not None or
+                    draft.get("cost_estimate") is not None or draft["brief"] != expected or
+                    draft["source"] != API_SOURCE):
+                raise ValueError("API 기획 응답이 앱에서 정한 입력·출처·승인 상태를 변경했습니다. 기존 작업은 유지됩니다.")
         elif mode == "openai_mock":
             expected = deepcopy(validate_brief(brief))
             try:

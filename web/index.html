@@ -7,7 +7,7 @@
 </head>
 <body>
 <a class="skip" href="#main">작업 화면으로 이동</a>
-<header><div class="header-inner"><a class="brand" href="/">SHORTS <span>WORKROOM</span></a><span class="mode">로컬 기획 · 모의 제작 · 유료 호출 없음</span></div></header>
+<header><div class="header-inner"><a class="brand" href="/">SHORTS <span>WORKROOM</span></a><span class="mode">API·로컬 기획 · 모의 영상 제작</span></div></header>
 <main id="main">
   <section class="intro" aria-labelledby="title"><p class="eyebrow">숏츠 제작 멀티 에이전트팀</p><h1 id="title">숏츠 제작 작업실</h1><p>주제를 입력하고, 기획과 제작을 각각 확인하세요.</p></section>
   <nav class="tabs" aria-label="화면 이동"><a href="#new-job">새 기획</a><a href="#workspace">제작 작업</a><a href="#about">역할과 흐름</a></nav>
@@ -22,7 +22,7 @@
         <div class="field"><label for="audience">대상 시청자</label><input id="audience" required value="분리배출을 처음 배우는 성인" maxlength="240"></div>
         <div class="field"><label for="forbidden">금지 요소 <small>쉼표로 구분 · 선택</small></label><input id="forbidden" value="과장 광고" maxlength="500"></div>
         <div class="field"><label for="budget">가상 예산 (mock_credit)</label><input id="budget" type="number" min="0" max="1000000000" value="1000" required><p class="hint">실제 통화나 과금 한도가 아닙니다.</p></div>
-        <div class="field full"><label for="model-mode">기획 방식</label><select id="model-mode" aria-describedby="model-hint"><option value="local_template">로컬 규칙 템플릿</option><option value="local_model_mock">로컬 모델 연결 모의 응답</option><option value="local_ollama">로컬 AI 실제 생성 · Qwen 3.5 4B</option><option value="openai_mock">API 연결 모의 테스트 · OpenAI SDK</option></select><p id="model-hint" class="hint">규칙 템플릿으로 기획합니다. 실제 AI 모델은 호출하지 않습니다.</p></div>
+        <div class="field full"><label for="model-mode">기획 방식</label><select id="model-mode" aria-describedby="model-hint"><option value="local_template">로컬 규칙 템플릿</option><option value="local_model_mock">로컬 모델 연결 모의 응답</option><option value="local_ollama">로컬 AI 실제 생성 · Qwen 3.5 4B</option><option value="openai_mock">API 연결 모의 테스트 · OpenAI SDK</option><option value="openai_api">실제 AI 기획·대본 · GPT-6.1 Sol API</option></select><p id="model-hint" class="hint">규칙 템플릿으로 기획합니다. 실제 AI 모델은 호출하지 않습니다.</p></div>
         <fieldset id="research-controls" class="field full research-panel"><legend>기획 전 자료 조사 <small>선택 · 모의 검색</small></legend><label class="check-label" for="research-enabled"><input id="research-enabled" type="checkbox" aria-describedby="research-help">모의 자료 조사 사용</label><p id="research-help" class="hint">고정된 합성 자료로 검색과 출처 정리를 시험합니다. 실제 인터넷 검색이나 사실 확인은 하지 않습니다.</p><button id="research-search" type="button" disabled>모의 자료 검색</button><p id="research-status" role="status" aria-live="polite">자료 조사 없이 기존 방식으로 기획합니다.</p><div id="research-preview" hidden></div></fieldset>
         <button type="submit" class="primary">기획 초안 만들기</button>
       </form>
@@ -50,5 +50,5 @@
   </section>
   </div>
   <section id="about" class="about"><p class="eyebrow">프로젝트 소개</p><h2>판단 역할은 나누고, 승인은 사람이.</h2><p>입력 주제 하나로 기획, 연출, 프롬프트, 제작과 검토를 연결합니다. 기획은 규칙·모의 응답·실제 로컬 AI 중 선택하고, 영상 제작은 로컬 합성을 사용합니다. 아래 8개는 설계상 책임이며 실제 LLM 전문팀 호출을 뜻하지 않습니다.</p><div class="roles"><article><h3>콘텐츠 기획</h3><p>시청자·훅·이야기·대본</p></article><article><h3>예시 큐레이션</h3><p>참고 자료가 있을 때만 · 현재 생략</p></article><article><h3>액션 연출</h3><p>장면 행동·길이</p></article><article><h3>비주얼 연출</h3><p>카메라·조명·오디오</p></article><article><h3>프롬프트 작성</h3><p>현재 기획과 장면 조건 전달</p></article><article><h3>제작 운영</h3><p>상태·가상 예산·승인 결속</p></article><article><h3>숏츠 제작</h3><p>색상 카드·무음·자막·파일 검사</p></article><article><h3>품질 검토</h3><p>기술 검사와 사람 확인 분리</p></article></div><p class="hint">액션·비주얼은 같은 로컬 연출 함수에서 처리합니다. LLM의 독립 내용 검토·실제 AI 영상·TTS는 아직 연결하지 않았습니다.</p></section>
-</main><footer>숏츠 제작 에이전트팀 · 로컬 시연 화면 · 실제 API 비용 없음</footer>
+</main><footer>숏츠 제작 에이전트팀 · 영상은 모의 제작 · 실제 API 기획은 사용량에 따라 과금됩니다.</footer>
 </body></html>
