@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GPT 스토리보드 작업실 아키텍처</title>
+  <style>
+    :root{font:16px/1.6 system-ui,"Malgun Gothic",sans-serif;color:#172339;background:#f3f6fa}*{box-sizing:border-box}body{margin:0}main{max-width:1100px;margin:auto;padding:2rem 1.2rem 4rem}h1{font-size:clamp(2rem,5vw,3rem);line-height:1.2}h2{margin:2rem 0 .8rem}a{color:#1656a7}a:focus-visible{outline:3px solid #b65c05;outline-offset:3px}.lead{max-width:76ch;color:#40516c}.flow,.grid{display:grid;gap:.8rem}.flow{grid-template-columns:repeat(5,minmax(0,1fr))}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.node,.panel{background:white;border:1px solid #cbd7e6;border-radius:.8rem;padding:1rem;box-shadow:0 2px 8px #1e31500d}.node{border-top:.35rem solid #1c5bab}.gate{border-top-color:#b35b17}.node h3,.panel h3{font-size:1rem;margin:0 0 .35rem}.node p,.panel p{margin:0}.notice{background:#fff5e8;border-left:.3rem solid #b35b17;padding:.7rem 1rem}code{overflow-wrap:anywhere;background:#edf2f8;padding:.08rem .2rem;border-radius:.2rem}li+li{margin-top:.35rem}details{background:white;border:1px solid #cbd7e6;border-radius:.8rem;padding:1rem}summary{cursor:pointer;font-weight:700}@media(max-width:800px){.flow{grid-template-columns:1fr 1fr}}@media(max-width:580px){.flow,.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body><main>
+  <header>
+    <p>2026-11-24 · 현재 로컬 작업본</p>
+    <h1>GPT 스토리보드 → 무음 MP4</h1>
+    <p class="lead">현재 실행 경로는 8766 작업실 하나입니다. GPT가 구간별 장면과 화면 이동을 제안하고, 사용자가 이미지 예시를 검토해 승인하면 FFmpeg가 MP4를 합성합니다.</p>
+    <p><a href="architecture.md">설계 상세</a> · <a href="reverse-engineering/README.md">역공학 Markdown 다이어그램</a> · <a href="../AGENTS.md">작업 규칙</a> · <a href="testing.md">검사 범위</a> · <a href="decisions/0021-remove-legacy-runtime.md">이전 기능 제거 결정</a></p>
+  </header>
+  <section aria-labelledby="flow-title">
+    <h2 id="flow-title">사용자 흐름과 실행 경계</h2>
+    <div class="flow" aria-label="입력, GPT 구간 설계, 이미지 생성, 사용자 검토, 최종 승인 후 MP4 합성">
+      <article class="node"><h3>1 · 입력</h3><p>프롬프트, 10·20·30초, 선택 기준 이미지</p></article>
+      <article class="node"><h3>2 · GPT 설계</h3><p>전체 보강 프롬프트와 10초 구간별 장면·카메라 이동</p></article>
+      <article class="node gate"><h3>3 · 예시 생성</h3><p>비용 안내 뒤 명시 버튼에서 OpenAI 이미지 API 호출</p></article>
+      <article class="node gate"><h3>4 · 사람 검토</h3><p>9:16 예시와 프롬프트를 보고 미생성 또는 최종 승인</p></article>
+      <article class="node"><h3>5 · 로컬 MP4</h3><p>승인된 PNG를 10초씩 이동·확대해 H.264 무음 MP4 다운로드</p></article>
+    </div>
+    <p class="notice">이미지를 움직이는 영상입니다. 피사체의 연속 동작을 생성하지 않습니다. 이동 중 화면 가장자리가 예시보다 더 잘릴 수 있습니다. 실제 OpenAI 유료 호출과 이미지 품질은 미검증입니다.</p>
+  </section>
+  <section aria-labelledby="layers-title">
+    <h2 id="layers-title">현재 파일 계층</h2>
+    <div class="grid">
+      <article class="panel"><h3>진입·표시</h3><p><a href="../storyboard_web.py">storyboard_web.py</a> · <a href="../web/storyboard.html">HTML</a> · <a href="../web/storyboard.css">CSS</a> · <a href="../web/storyboard.js">JavaScript</a>: localhost 고정 API, 입력, 단계별 승인, 예시·다운로드.</p></article>
+      <article class="panel"><h3>상태·승인</h3><p><a href="../src/storyboard_flow.py">src/storyboard_flow.py</a>: 서버 발급 작업 ID와 단계, 파일/승인 해시, Git 제외 <code>workspace/storyboards/</code>.</p></article>
+      <article class="panel"><h3>외부 모델 경계</h3><p><a href="../src/storyboard_openai.py">src/storyboard_openai.py</a>: 서버 전용 키, 고정 GPT·이미지 endpoint, 명시 호출과 응답 검증.</p></article>
+      <article class="panel"><h3>로컬 제작·검사</h3><p><a href="../src/storyboard_render.py">src/storyboard_render.py</a>: FFmpeg 합성·FFprobe 확인. <a href="../tests/test_storyboard.py">계약 테스트</a>와 <a href="../scripts/check_architecture_sync.py">설계 가드</a>가 변경을 검사.</p></article>
+    </div>
+  </section>
+  <section aria-labelledby="change-title">
+    <h2 id="change-title">이번 파일 정리</h2>
+    <p>사용자 선택에 따라 이전 실행 기능의 Git 추적 파일 <a href="removed-legacy-files.md">44개</a>를 삭제했습니다. 초기 하네스와 Git 제외 작업 결과·비밀 파일, 제안서·과거 ADR·보고서·증빙 이미지는 보존했습니다.</p>
+    <details><summary>삭제한 파일 묶음 보기</summary><ul>
+      <li>이전 진입 3개: <code>shorts_cli.py</code>, <code>shorts_web.py</code>, <code>demo.py</code></li>
+      <li>이전 <code>src/</code> 12개: <code>shorts</code>, <code>direction</code>, <code>gui_workflow</code>, <code>research_mock</code>, <code>openai_api</code>, <code>openai_mock</code>, <code>local_ollama</code>, <code>local_model_mock</code>, <code>mock_production</code>, <code>mock_media</code>, <code>mock_rework</code>, <code>quality_feedback</code></li>
+      <li>이전 웹 자산 4개: <code>web/index.html</code>, <code>app.js</code>, <code>app.css</code>, <code>architecture.svg</code></li>
+      <li>이전 전용 테스트 16개와 fixture 2개, 합성 예제 7개. 정확 경로와 삭제 전 검사는 작업 기록에 남겼습니다.</li>
+    </ul></details>
+    <p>초기 구상 하네스의 <a href="harness.md">설계 안내</a>와 <a href="../harness/skills/project-bootstrap/SKILL.md">참고 스킬</a>, <a href="../requirements.md">초기 요구</a>, <a href="shorts-production.md">당시 제작 안내</a>는 이력으로 남깁니다. 현재 앱 실행 명령은 <a href="../README.md">README</a>를 따릅니다.</p>
+    <p>현재 변경: <a href="../src/storyboard_openai.py">키 읽기 독립화</a> · <a href="../tests/test_storyboard.py">키 검사 추가</a> · <a href="../requirements.txt">의존성 정리</a> · <a href="../README.md">README</a> · <a href="../AGENTS.md">규칙</a> · <a href="architecture.md">설계</a> · <a href="project-brief.md">브리프</a> · <a href="testing.md">검사</a> · <a href="decisions/0021-remove-legacy-runtime.md">ADR 0021</a> · 이 HTML.</p>
+    <p class="notice">과거 ADR·보고서의 이전 파일 경로는 당시 구현의 증거입니다. 현재 파일 목록으로 해석하지 마세요. Git 이력에서 추적 파일의 과거 버전을 확인할 수 있습니다.</p>
+  </section>
+</main></body></html>

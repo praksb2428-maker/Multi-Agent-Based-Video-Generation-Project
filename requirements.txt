@@ -1,3 +1,2 @@
-# SDK mock milestone: all planning requests stay in an in-memory MockTransport.
-openai==3.41.0
+# Storyboard API requests use httpx directly; tests replace network with MockTransport.
 httpx==0.28.1

@@ -1,8 +1,0 @@
-{
-  "schema_version": 1,
-  "source": "fictional_test_only",
-  "unit": "mock_credit",
-  "video_per_second": 2,
-  "narration_per_100_characters": 1,
-  "assembly_fixed": 5
-}

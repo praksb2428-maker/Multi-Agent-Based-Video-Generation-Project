@@ -18,12 +18,13 @@ description: Run scoped checks for this short-video project's environment or cha
 3. 실제 실행 근거가 필요한 시험 운영이고 유효한 기존 근거가 없을 때 초기 모듈 로딩 검사와 기존 핵심 검사를 실행한다. 다음은 해당 범위의 명령 예시다. 문서 설계만 변경되고 제품·검사 기준이 그대로면 구조·링크·보존 검사와 유효한 기존 결과를 사용하며 이 명령을 매번 반복하지 않는다.
 
    ```powershell
-   .\.venv\Scripts\python.exe -X utf8 -c "import src.shorts, src.direction, src.mock_production; print('offline modules loaded')"
-   .\.venv\Scripts\python.exe -X utf8 -W error::ResourceWarning -m unittest discover -s tests -p test_shorts.py -v
+   .\.venv\Scripts\python.exe -X utf8 -c "import storyboard_web, src.storyboard_flow, src.storyboard_openai, src.storyboard_render; print('current modules loaded')"
+   .\.venv\Scripts\python.exe -X utf8 -W error::ResourceWarning -m unittest discover -s tests -v
    ```
 
 4. 나머지 기존 검사 근거는 해당 소스·입력·의존성·런타임·검사 정의·정상 종료·정리가 유효한지 비교하고 재사용으로 구분한다. 공통 경계 변경 또는 영향 불명 등 실제 근거가 있을 때만 전체 검사를 다시 실행한다. UI·미디어가 바뀌면 [테스트 기준](../../../docs/testing.md)의 실제 동작 검사도 수행한다.
-5. 통과·실패·미실행을 구분한다. 필수 검사 미실행은 보류로 인계하고 검사 실패는 작성자에게 돌린다. 필수 검사 통과·유효 재사용이 확인되면 같은 후보의 checks.md를 별도 검토자에게 넘긴다. 검증 담당의 검사 결과는 독립 검토의 판정이나 개인 채택을 대신하지 않는다. 모의 응답을 실제 모델 호출로, 기술 검사를 사람 수락으로, 파일 구조 검사를 스킬 자동 발견으로 표시하지 않는다.
+5. 구현 파일이 바뀌면 회차 기준 ref로 `python scripts/check_architecture_sync.py --base <base>`를 실행한다. `AGENTS.md` 또는 `docs/architecture.md`의 동반 변경이 없으면 실패로 기록한다. 통과해도 설계의 의미가 맞는지는 별도 검토자가 확인한다. 구조가 바뀌었다면 `docs/architecture.html`의 파일 목록·계층·링크도 확인한다.
+6. 통과·실패·미실행을 구분한다. 필수 검사 미실행은 보류로 인계하고 검사 실패는 작성자에게 돌린다. 필수 검사 통과·유효 재사용이 확인되면 같은 후보의 checks.md를 별도 검토자에게 넘긴다. 검증 담당의 검사 결과는 독립 검토의 판정이나 개인 채택을 대신하지 않는다. 모의 응답을 실제 모델 호출로, 로컬 MP4 기술 검사를 사람 수락으로, 파일 구조 검사를 스킬 자동 발견으로 표시하지 않는다.
 
 ## 산출물
 
